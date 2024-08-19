@@ -157,7 +157,7 @@
                             <div class="card-body">
                                 <p class="card-text"><strong>Price:</strong> $@movie.Price</p>
                                 <p class="card-text"><strong>Cinema:</strong> @movie.CinemaName</p>
-                                <p class="card-text"><strong>Dates:</strong> @movie.StartDate.ToString("MMMM dd, yyyy") - @movie.EndDate.ToString("MMMM dd, yyyy")</p>
+                                <p class="card-text"><strong>Date:</strong> @movie.StartDate.ToString("MMMM dd, yyyy") - @movie.EndDate.ToString("MMMM dd, yyyy")</p>
                                 <p class="card-text"><strong>Category:</strong> <a href="@Url.Action("MoviesByCategory", "Category", new { id = movie.CategoryId })">@movie.CategoryName</a></p>
                                 <p class="card-text"><strong>Status:</strong> @movie.MovieStatus</p>
                                 <div class="btn-container">
