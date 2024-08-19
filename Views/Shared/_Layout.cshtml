@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ETickets</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ETickets.styles.css" asp-append-version="true" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar-custom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #343a40;
+        }
+
+        .navbar-custom .navbar-left,
+        .navbar-custom .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-custom .navbar-brand img {
+            width: 120px;
+            height: 50px;
+        }
+
+        .navbar-custom .navbar-brand {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar-custom .navbar-nav .nav-link {
+            color: #bbb;
+            margin-right: 1rem;
+        }
+
+        .navbar-custom .navbar-nav .nav-link:hover {
+            color: #fff;
+        }
+
+        .navbar-custom .form-control {
+            border-radius: 0.25rem;
+        }
+
+        .navbar-custom .btn-outline-success {
+            color: #fff;
+            border-color: #28a745;
+        }
+
+        .navbar-custom .btn-outline-success:hover {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        footer {
+            background-color: #343a40;
+            color: #bbb;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        footer a {
+            color: #28a745;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-custom">
+            <div class="container-fluid">
+                <div class="navbar-left">
+                    <a class="navbar-brand" href="#">
+                        <img src="/images/logo.png" alt="Bootstrap">
+                    </a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Movie Point</a>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Category" asp-action="Index">Categories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Cinema" asp-action="Index">Cinemas</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Add
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-area="" asp-controller="Movie" asp-action="CreateMovie">Add Movie</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Category" asp-action="CreateCategory">Add Category</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="navbar-right">
+                    <form class="d-flex" role="search" action="@(Url.Action("Index", "Search"))" method="get">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="Name">
+                        <button class="btn btn-outline-success" type="submit">
+                            Search
+                        </button>
+                    </form>
+                    <a class="nav-link" href="@Url.Action("Index", "ShoppingCart")">
+                        <img src="https://img.icons8.com/ios-filled/50/ffd700/shopping-cart.png" width="30" height="30" alt="Cart" />
+                        @* <span id="cart-count" class="badge badge-pill badge-danger">@Model.CartItemCount</span> *@
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted" style="padding: 0.4rem 0;">
+        <div class="container">
+            &copy; 2024 - ETickets - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

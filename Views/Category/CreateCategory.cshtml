@@ -1,0 +1,32 @@
+﻿@using ETickets.ViewModels
+@model CategoryVM
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Category</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-jcKcQCErjBujtCGRkXJg9t4Vun3b6nxu6R4+4Ol5KH4R/9fGk7XRoylo1HAoF5zN" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Create Category</h2>
+
+        <form asp-action="AddCategory" method="post">
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" placeholder="Enter Category name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" integrity="sha384-MJoHkFCFk3PeG0yF+np7cBqyW7y+0Zkgd2Z+Z5PAFgcVSrFpHxl2alR2tw+o2A6J" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+</body>
+</html>

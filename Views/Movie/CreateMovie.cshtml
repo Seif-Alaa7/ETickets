@@ -1,0 +1,78 @@
+﻿@using ETickets.ViewModels
+@model MovieVM
+
+<h2>Create Movie</h2>
+
+<partial name="_ValidationScriptsPartial" />
+
+<form asp-action="AddMovie" method="post">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" placeholder="Enter movie name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <textarea asp-for="Description" class="form-control" placeholder="Enter movie description"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Price" class="control-label"></label>
+        <input asp-for="Price" class="form-control" placeholder="Enter movie price" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ImgUrl" class="control-label"></label>
+        <input asp-for="ImgUrl" class="form-control" placeholder="Enter image URL" />
+        <span asp-validation-for="ImgUrl" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TrailerUrl" class="control-label"></label>
+        <input asp-for="TrailerUrl" class="form-control" placeholder="Enter trailer URL" />
+        <span asp-validation-for="TrailerUrl" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StartDate" class="control-label"></label>
+        <input asp-for="StartDate" type="datetime-local" class="form-control" />
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EndDate" class="control-label"></label>
+        <input asp-for="EndDate" type="datetime-local" class="form-control" />
+        <span asp-validation-for="EndDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MovieStatus" class="control-label"></label>
+        <select asp-for="MovieStatus" class="form-control">
+            <option value="0">Upcoming</option>
+            <option value="1">Available</option>
+            <option value="2">Expired</option>
+        </select>
+        <span asp-validation-for="MovieStatus" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CinemaId" class="control-label"></label>
+        <select asp-for="CinemaId" class="form-control" asp-items="ViewBag.Cinemas"></select>
+        <span asp-validation-for="CinemaId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CategoryId" class="control-label"></label>
+        <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        <i class="bi bi-save"></i> Create
+    </button>
+</form>

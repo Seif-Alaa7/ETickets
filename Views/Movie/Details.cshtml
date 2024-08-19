@@ -1,0 +1,196 @@
+﻿@model ETickets.ViewModels.MovieVM
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-jcKcQCErjBujtCGRkXJg9t4Vun3b6nxu6R4+4Ol5KH4R/9fGk7XRoylo1HAoF5zN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.4/plyr.css">
+    <style>
+        .movie-details {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .movie-img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .movie-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .movie-header h2 {
+                margin: 0;
+            }
+
+        .movie-info {
+            margin-top: 20px;
+        }
+
+        .cast-images {
+            margin-top: 20px;
+        }
+
+            .cast-images img {
+                max-width: 100px;
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+
+        .btn-status {
+            border-radius: 0.25rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+            .btn-status.upcoming {
+                background-color: #ffc107;
+                color: #212529;
+                border-color: #ffc107;
+            }
+
+            .btn-status.available {
+                background-color: #28a745;
+                color: #fff;
+                border-color: #28a745;
+            }
+
+            .btn-status.expired {
+                background-color: #dc3545;
+                color: #fff;
+                border-color: #dc3545;
+            }
+
+            .btn-status:hover {
+                opacity: 0.85;
+            }
+
+            .btn-status:active,
+            .btn-status:focus {
+                outline: none;
+                box-shadow: none;
+            }
+    </style>
+</head>
+<body>
+    <div class="container movie-details mt-5">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="~/images/movies/@Model.ImgUrl" alt="@Model.Name" class="movie-img" />
+                <div class="mt-3">
+                    @{
+                        string btnClass = "btn-status upcoming";
+                        switch (Model.MovieStatus)
+                        {
+                            case ETickets.Data.Enum.MovieStatus.Available:
+                                btnClass = "btn-status available";
+                                break;
+                            case ETickets.Data.Enum.MovieStatus.Expired:
+                                btnClass = "btn-status expired";
+                                break;
+                            case ETickets.Data.Enum.MovieStatus.UpComing:
+                                btnClass = "btn-status upcoming";
+                                break;
+                        }
+                    }
+                    @if (Model.MovieStatus == ETickets.Data.Enum.MovieStatus.Available)
+                    {
+                        <a href="@Url.Action("AddToCart", "ShoppingCart", new { id = Model.Id })" class="btn btn-success ml-2">Book Ticket</a>
+                    }
+                    else if (Model.MovieStatus == ETickets.Data.Enum.MovieStatus.UpComing)
+                    {
+                        <a class="btn btn-warning ml-2" disabled>Soon</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-danger ml-2" disabled>Not Available</a>
+                    }
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="movie-header">
+                    <h2>@Model.Name</h2>
+                    <span class="badge badge-info">@Model.MovieStatus</span>
+                </div>
+                <div class="movie-info">
+                    <p class="lead">@Model.Description</p>
+                    <p><strong>Price:</strong> $@Model.Price</p>
+                    <p><strong>Cinema:</strong> @Model.CinemaName</p>
+                    <p><strong>Category:</strong> @Model.CategoryName</p>
+                    <p><strong>Start Date:</strong> @Model.StartDate.ToShortDateString()</p>
+                    <p><strong>End Date:</strong> @Model.EndDate.ToShortDateString()</p>
+                    <p>Views: @Model.ViewCount</p>
+
+                    <div class="container movie-details mt-3">
+                        <div class="movie-info">
+                            <h4>Actors</h4>
+                            @if (Model.Actors != null && Model.Actors.Any())
+                            {
+                                <div class="row">
+                                    @foreach (var actor in Model.Actors)
+                                    {
+                                        <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4">
+                                            <div class="text-center">
+                                                <a href="@Url.Action("Index", "Actor", new { id = actor.Id })">
+                                                    <img src="~/images/cast/@actor.ProfilePicture" alt="@actor.FirstName" class="actor-img img-fluid" />
+                                                </a>
+                                                <p>@actor.FirstName @actor.LastName</p>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <p>No actors available for this movie.</p>
+                            }
+
+                            <style>
+                                .actor-img {
+                                    width: 100%;
+                                    height: auto;
+                                    max-height: 150px;
+                                    object-fit: cover;
+                                    border-radius: 10px;
+                                    margin-bottom: 10px;
+                                }
+
+                                .text-center p {
+                                    margin: 0;
+                                }
+                            </style>
+                    </div>
+
+                    @* Video Trailer *@
+                    <div class="mt-3">
+                        <h4>Trailer</h4>
+                        <div class="plyr__video-embed" id="player">
+                            <iframe src="https://www.youtube.com/embed/@Model.TrailerUrl?origin=https://example.com"
+                                    allowfullscreen
+                                    allowtransparency
+                                    allow="autoplay"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4Agx1FTxjt5F5mNtv1ujC8i45aF7t5c7p4zFZB6WWU+DLs0yI7AY" crossorigin="anonymous"></script>
+    <script src="https://cdn.plyr.io/3.6.4/plyr.js"></script>
+    <script>
+        const player = new Plyr('#player');
+    </script>
+</body>
+</html>

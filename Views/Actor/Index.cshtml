@@ -1,0 +1,58 @@
+﻿@model ETickets.ViewModels.ActorVM
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@Model.FirstName @Model.LastName - Actor Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-jcKcQCErjBujtCGRkXJg9t4Vun3b6nxu6R4+4Ol5KH4R/9fGk7XRoylo1HAoF5zN" crossorigin="anonymous">
+    <style>
+        .actor-details {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .actor-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .actor-info {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container actor-details mt-5">
+        <div class="text-center">
+            <img src="~/images/cast/@Model.ProfilePicture" alt="@Model.FirstName @Model.LastName" class="actor-img img-fluid" />
+            <h2>@Model.FirstName @Model.LastName</h2>
+            <p>@Model.Bio</p>
+        </div>
+        <div class="actor-info">
+            <h4>Movies</h4>
+            @if (Model.MoviesName != null && Model.MoviesName.Any())
+            {
+                <ul>
+                    @foreach (var movieName in Model.MoviesName)
+                    {
+                        <li>@movieName</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>No movies found for this actor.</p>
+            }
+            <h4>Latest News</h4>
+            <p>@Model.News</p>
+        </div>
+        <a href="@Url.Action("Index", "Home")" class="btn btn-primary mt-3">Back to Home</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4Agx1FTxjt5F5mNtv1ujC8i45aF7t5c7p4zFZB6WWU+DLs0yI7AY" crossorigin="anonymous"></script>
+</body>
+</html>

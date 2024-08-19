@@ -1,0 +1,126 @@
+﻿@model ETickets.ViewModels.CategoryVM
+@using ETickets.Data.Enum;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movies By Category</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-jcKcQCErjBujtCGRkXJg9t4Vun3b6nxu6R4+4Ol5KH4R/9fGk7XRoylo1HAoF5zN" crossorigin="anonymous">
+    <style>
+        .movie-title-box {
+            background-color: #343a40;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .btn-status {
+            border-radius: 0.25rem;
+            font-weight: bold;
+            width: 100%;
+            text-align: center;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+            .btn-status.upcoming {
+                background-color: #ffc107;
+                color: #212529;
+                border-color: #ffc107;
+            }
+
+            .btn-status.available {
+                background-color: #28a745;
+                color: #fff;
+                border-color: #28a745;
+            }
+
+            .btn-status.expired {
+                background-color: #dc3545;
+                color: #fff;
+                border-color: #dc3545;
+            }
+
+            .btn-status:hover {
+                opacity: 0.85;
+            }
+
+            .btn-status:active,
+            .btn-status:focus {
+                outline: none;
+                box-shadow: none;
+            }
+
+        .movie-card {
+            margin-bottom: 20px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+            .btn-container .btn {
+                flex: 1;
+                margin-right: 5px;
+            }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Movies By Category: @Model.Name</h2>
+        <div class="row">
+            @foreach (var movie in Model.Movies)
+            {
+                string btnClass = "btn-status upcoming";
+
+                switch (movie.MovieStatus)
+                {
+                    case MovieStatus.Available:
+                        btnClass = "btn-status available";
+                        break;
+                    case MovieStatus.Expired:
+                        btnClass = "btn-status expired";
+                        break;
+                    case MovieStatus.UpComing:
+                        btnClass = "btn-status upcoming";
+                        break;
+                }
+
+                <div class="col-md-6 mb-4 movie-card">
+                    <div class="card">
+                        <div class="movie-title-box">
+                            @movie.Name
+                        </div>
+                        <div class="row no-gutters">
+                            <div class="col-md-4">
+                                <img src="~/images/movies/@movie.ImgUrl" class="card-img" alt="@movie.Name" style="height: 100%; width: 100%; object-fit: cover;">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <p class="card-text"><strong>Price:</strong> $@movie.Price</p>
+                                    <p class="card-text"><strong>Cinema:</strong> @(movie.CinemaName != null ? movie.CinemaName : "N/A")</p>
+                                    <p class="card-text"><strong>Dates:</strong> @movie.StartDate.ToString("MMMM dd, yyyy") - @movie.EndDate.ToString("MMMM dd, yyyy")</p>
+                                    <p class="card-text"><strong>Category:</strong> @movie.CategoryName</p>
+                                    <p class="card-text"><strong>Status:</strong> @movie.MovieStatus</p>
+                                    <div class="btn-container">
+                                        <a class="btn btn-primary" href="@Url.Action("Details", "Movie", new { id = movie.Id })">More Details</a>
+                                        <a class="@btnClass btn btn-success" href="@Url.Action("AddToCart", "ShoppingCart", new { id = movie.Id })">Book Ticket</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4Agx1FTxjt5F5mNtv1ujC8i45aF7t5c7p4zFZB6WWU+DLs0yI7AY" crossorigin="anonymous"></script>
+</body>
+</html>

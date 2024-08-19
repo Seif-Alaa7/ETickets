@@ -1,0 +1,23 @@
+﻿@model IEnumerable<ETickets.ViewModels.CategoryVM>
+
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<h2>Categories</h2>
+
+<div class="container">
+    <div class="row">
+        @foreach (var category in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@category.Name</h5>
+                        <a href="@Url.Action("MoviesByCategory", "Category", new { id = category.Id })" class="btn btn-primary">All Movies</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,194 @@
+﻿@model IEnumerable<ETickets.ViewModels.MovieVM>
+@using ETickets.Data.Enum;
+
+@{
+    ViewData["Title"] = "Movies";
+}
+@{
+    var message = TempData["Message"] as string;
+}
+@if (!string.IsNullOrEmpty(message))
+{
+    <div id="tempMessage" class="alert alert-success">
+        @message
+    </div>
+    <script>
+        setTimeout(function () {
+            var tempMessage = document.getElementById('tempMessage');
+            if (tempMessage) {
+                tempMessage.style.display = 'none';
+            }
+        }, 3000);
+    </script>
+}
+@{
+    var messageCheckout = TempData["MessageCheckout"] as string;
+}
+@if (!string.IsNullOrEmpty(messageCheckout))
+{
+    <div id="tempMessage" class="alert alert-success">
+        @messageCheckout
+    </div>
+    <script>
+        setTimeout(function () {
+            var tempMessage = document.getElementById('tempMessage');
+            if (tempMessage) {
+                tempMessage.style.display = 'none';
+            }
+        }, 3000);
+    </script>
+}
+
+
+<style>
+    .movie-title-box {
+        background-color: #343a40;
+        color: #fff;
+        text-align: center;
+        padding: 10px;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    .movie-title {
+        color: #212529;
+    }
+
+    .btn-status {
+        border-radius: 0.25rem;
+        font-weight: bold;
+        width: 100%;
+        text-align: center;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+        .btn-status.upcoming {
+            background-color: #ffc107;
+            color: #212529;
+            border-color: #ffc107;
+        }
+
+        .btn-status.available {
+            background-color: #28a745;
+            color: #fff;
+            border-color: #28a745;
+        }
+
+        .btn-status.expired {
+            background-color: #dc3545;
+            color: #fff;
+            border-color: #dc3545;
+        }
+
+        .btn-status:hover {
+            opacity: 0.85;
+        }
+
+        .btn-status:active,
+        .btn-status:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+    .movie-card {
+        margin-bottom: 20px;
+    }
+
+    .btn-container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+        .btn-container .btn {
+            flex: 1;
+            margin-right: 5px;
+        }
+
+    .alert-temporary {
+        position: fixed;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #28a745;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        display: none; 
+        z-index: 9999;
+    }
+</style>
+
+<h2>Movies</h2>
+
+<div class="container">
+    <div class="row">
+        @foreach (var movie in Model)
+        {
+            string btnClass = "btn-status upcoming";
+
+            switch (movie.MovieStatus)
+            {
+                case MovieStatus.Available:
+                    btnClass = "btn-status available";
+                    break;
+                case MovieStatus.Expired:
+                    btnClass = "btn-status expired";
+                    break;
+                case MovieStatus.UpComing:
+                    btnClass = "btn-status upcoming";
+                    break;
+            }
+
+            <div class="col-md-6 mb-4 movie-card">
+                <div class="card">
+                    <div class="movie-title-box">
+                        @movie.Name
+                    </div>
+                    <a href="@Url.Action("Edit", "Movie", new { id = movie.Id })" class="btn btn-outline-secondary btn-sm d-flex align-items-center" style="float: left; margin-right: 10px;">
+                        <i class="bi bi-pencil" style="font-size: 1.2rem; margin-right: 5px;"></i> Edit
+                    </a>
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            <img src="~/images/movies/@movie.ImgUrl" class="card-img" alt="@movie.Name" style="height: 100%; width: 100%; object-fit: cover;">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <p class="card-text"><strong>Price:</strong> $@movie.Price</p>
+                                <p class="card-text"><strong>Cinema:</strong> @movie.CinemaName</p>
+                                <p class="card-text"><strong>Dates:</strong> @movie.StartDate.ToString("MMMM dd, yyyy") - @movie.EndDate.ToString("MMMM dd, yyyy")</p>
+                                <p class="card-text"><strong>Category:</strong> <a href="@Url.Action("MoviesByCategory", "Category", new { id = movie.CategoryId })">@movie.CategoryName</a></p>
+                                <p class="card-text"><strong>Status:</strong> @movie.MovieStatus</p>
+                                <div class="btn-container">
+                                    <a class="btn btn-primary" href="@Url.Action("Details", "Movie", new { id = movie.Id })">More Details</a>
+                                    <a class="@btnClass btn btn-success" href="@Url.Action("AddToCart", "ShoppingCart", new { id = movie.Id })">Book Ticket</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@if (!string.IsNullOrEmpty(message))
+{
+    <div id="tempMessage" class="alert-temporary">
+        @message
+    </div>
+}
+
+<script>
+    var tempMessage = document.getElementById('tempMessage');
+    if (tempMessage) {
+        tempMessage.style.display = 'block'; 
+    }
+
+    setTimeout(function () {
+        if (tempMessage) {
+            tempMessage.style.display = 'none';
+        }
+    }, 3000); 
+</script>
